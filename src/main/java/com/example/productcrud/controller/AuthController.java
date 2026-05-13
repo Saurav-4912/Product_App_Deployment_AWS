@@ -1,8 +1,6 @@
 package com.example.productcrud.controller;
 
-import com.example.productcrud.dto.AuthResponse;
-import com.example.productcrud.dto.LoginRequest;
-import com.example.productcrud.dto.RegisterRequest;
+import com.example.productcrud.dto.*;
 import com.example.productcrud.service.impl.AuthServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,15 +14,17 @@ public class AuthController
     private final AuthServiceImpl authService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest)
-    {
-        authService.register(registerRequest);
-        return ResponseEntity.ok("User registered successfully");
+    public ResponseEntity<ApiResponse<RegisterResponse>> register(
+            @RequestBody RegisterRequest registerRequest
+    ) {
+        ApiResponse<RegisterResponse> response = authService.register(registerRequest);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest)
-    {
+    public ResponseEntity<ApiResponse<AuthResponse>> login(
+            @RequestBody LoginRequest loginRequest
+    ) {
         return ResponseEntity.ok(authService.login(loginRequest));
     }
 }

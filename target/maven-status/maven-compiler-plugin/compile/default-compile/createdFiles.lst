@@ -5,12 +5,14 @@ com\example\productcrud\repository\UserRepository.class
 com\example\productcrud\security\JwtAuthenticationFilter.class
 com\example\productcrud\dto\LoginRequest.class
 com\example\productcrud\enums\Role.class
+com\example\productcrud\dto\RegisterResponse.class
 com\example\productcrud\service\ProductService.class
 com\example\productcrud\repository\ProductRepository.class
 com\example\productcrud\security\SecurityConfig.class
 com\example\productcrud\security\JwtService.class
 com\example\productcrud\service\impl\AuthServiceImpl.class
 com\example\productcrud\dto\ProductDTO$ProductDTOBuilder.class
+com\example\productcrud\dto\ApiResponse.class
 com\example\productcrud\controller\ProductController.class
 com\example\productcrud\dto\ProductDTO.class
 com\example\productcrud\service\AuthService.class

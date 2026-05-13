@@ -5,11 +5,13 @@ D:\Zest_India_Task\Product_CRUD_App\src\main\java\com\example\productcrud\securi
 D:\Zest_India_Task\Product_CRUD_App\src\main\java\com\example\productcrud\security\CustomUserDetailsService.java
 D:\Zest_India_Task\Product_CRUD_App\src\main\java\com\example\productcrud\controller\ProductController.java
 D:\Zest_India_Task\Product_CRUD_App\src\main\java\com\example\productcrud\dto\RegisterRequest.java
+D:\Zest_India_Task\Product_CRUD_App\src\main\java\com\example\productcrud\dto\RegisterResponse.java
 D:\Zest_India_Task\Product_CRUD_App\src\main\java\com\example\productcrud\service\AuthService.java
 D:\Zest_India_Task\Product_CRUD_App\src\main\java\com\example\productcrud\exception\ResourceNotFoundException.java
 D:\Zest_India_Task\Product_CRUD_App\src\main\java\com\example\productcrud\security\SecurityConfig.java
 D:\Zest_India_Task\Product_CRUD_App\src\main\java\com\example\productcrud\enums\Role.java
 D:\Zest_India_Task\Product_CRUD_App\src\main\java\com\example\productcrud\entity\User.java
+D:\Zest_India_Task\Product_CRUD_App\src\main\java\com\example\productcrud\dto\ApiResponse.java
 D:\Zest_India_Task\Product_CRUD_App\src\main\java\com\example\productcrud\security\JwtAuthenticationFilter.java
 D:\Zest_India_Task\Product_CRUD_App\src\main\java\com\example\productcrud\repository\UserRepository.java
 D:\Zest_India_Task\Product_CRUD_App\src\main\java\com\example\productcrud\controller\AuthController.java

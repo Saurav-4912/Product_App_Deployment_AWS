@@ -1,8 +1,6 @@
 package com.example.productcrud.service.impl;
 
-import com.example.productcrud.dto.AuthResponse;
-import com.example.productcrud.dto.LoginRequest;
-import com.example.productcrud.dto.RegisterRequest;
+import com.example.productcrud.dto.*;
 import com.example.productcrud.entity.User;
 import com.example.productcrud.enums.Role;
 import com.example.productcrud.repository.UserRepository;
@@ -15,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
@@ -26,22 +26,12 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public void register(RegisterRequest registerRequest) {
+    public ApiResponse<RegisterResponse> register(RegisterRequest registerRequest) {
 
-        // Check email already exists or not
         if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
             throw new RuntimeException("Email already registered");
         }
 
-        /*
-        User user = new User();
-        user.setName(registerRequest.getName());
-        user.setEmail(registerRequest.getEmail());
-        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        user.setRole(registerRequest.getRole());
-        */
-
-        // What is Builder -->Lombok builder pattern Instead of set or get we write cleaner code
         User user = User.builder()
                 .name(registerRequest.getName())
                 .email(registerRequest.getEmail())
@@ -49,13 +39,27 @@ public class AuthServiceImpl implements AuthService {
                 .role(registerRequest.getRole() == null ? Role.OWNER : registerRequest.getRole())
                 .build();
 
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        RegisterResponse registerResponse = new RegisterResponse(
+                savedUser.getName(),
+                savedUser.getEmail(),
+                savedUser.getRole().name()
+        );
+
+        return new ApiResponse<>(
+                true,
+                "User registered successfully",
+                LocalDateTime.now(),
+                registerResponse
+        );
     }
 
     @Override
-    public AuthResponse login(LoginRequest loginRequest) {
+    public ApiResponse<AuthResponse> login(LoginRequest loginRequest) {
 
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
                         loginRequest.getEmail(),
                         loginRequest.getPassword()
                 )
@@ -64,14 +68,27 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
-                .username(user.getEmail())
-                .password(user.getPassword())
-                .roles(user.getRole().name())
-                .build();
+        UserDetails userDetails =
+                org.springframework.security.core.userdetails.User.builder()
+                        .username(user.getEmail())
+                        .password(user.getPassword())
+                        .roles(user.getRole().name())
+                        .build();
 
         String token = jwtService.generateToken(userDetails);
 
-        return new AuthResponse(token);
+        AuthResponse authResponse = new AuthResponse(
+                token,
+                "Bearer",
+                user.getEmail(),
+                user.getRole().name()
+        );
+
+        return new ApiResponse<>(
+                true,
+                "Login successful",
+                LocalDateTime.now(),
+                authResponse
+        );
     }
 }
